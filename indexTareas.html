@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tareas</title>
+
+    <!-- Link para el Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <!-- Link para estilos de letra de google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- link de estilos CSS -->
+    <link rel="stylesheet" href="styleTareas.css" />
+  </head>
+  <body class="d-flex flex-wrap flex-column p-5">
+    <div
+      class="contenedorFormulario d-flex justify-content-center p-5 flex-wrap flex-column align-items-center"
+    >
+      <h1 class="fs-3 fw-bold text-center mb-5">
+        Bienvenidos a su página de administración<br />
+        de tareas
+      </h1>
+      <form
+        id="formulario"
+        class="p-5 d-flex flex-wrap flex-column border border-black rounded-5"
+      >
+        <div class="mb-3 d-flex flex-column">
+          <label for="titulo-tarea" class="fs-5 fw-bold p-1">Título: </label>
+          <input
+            type="text"
+            id="titulo-tarea"
+            name="titulo-tarea"
+            class="border border-black rounded-1 p-1"
+          />
+        </div>
+        <div class="mb-3 d-flex flex-column">
+          <label for="descripcion-tarea" class="fs-5 fw-bold p-1"
+            >Tarea:
+          </label>
+          <textarea
+            id="descripcion-tarea"
+            name="descripcion-tarea"
+            class="border border-black rounded-1 p-1"
+          ></textarea>
+        </div>
+        <div class="mb-3 d-flex flex-column">
+          <label for="fecha" class="fs-5 fw-bold p-1">Fecha: </label>
+          <input
+            type="date"
+            id="fecha"
+            name="fecha"
+            class="border border-black rounded-1 p-1"
+          />
+        </div>
+        <button id="boton-enviar" type="submit" class="btn btn-primary">
+          Enviar
+        </button>
+      </form>
+    </div>
+    <div class="contenedorSecciones d-flex flex-wrap flex-column justify-content-center ">
+      <h5 class="text-center fs-3 fw-bold pb-5">
+        Estado de la lista de tareas
+      </h5>
+
+      <div class="contenedorlistas d-flex  ">
+        <div
+          class="contenedor-lista-pendiente d-flex  flex-column me-5 drop_zone"
+          id="pendiente"
+          ondrop="dropHandler(event);" 
+          ondragover="dragOverHandler(event);"
+        >
+          <h2 id="titulo-lista" class="text-center fs-3 fw-bold">Pendiente</h2>
+          <div
+            id="lista-pendiente" 
+
+            class="pendiente align-items-center d-flex justify-content-center  flex-column "
+          ></div>
+        </div>
+
+        <div id="progreso " 
+        ondrop="dropHandler(event);" 
+        ondragover="dragOverHandler(event);"
+        class="progreso me-5 drop_zone">
+          <h2 class="text-center fs-3 fw-bold">En progreso</h2>
+        </div>
+        <div id="terminado " 
+        ondrop="dropHandler(event);"  
+        ondragover="dragOverHandler(event);"
+        class="terminado drop_zone">
+          <h2 class="text-center fs-3 fw-bold">Terminado</h2>
+        </div>
+      </div>
+    </div>
+
+
+    <div
+      class="modal fade"
+      id="editarTareaModal"
+      tabindex="-1"
+      aria-labelledby="editarTareaModal"
+      aria-atomic="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header ">
+            <h5 class="modal-title" 
+            id="editarTareaModalLabel">Editar Tarea</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="formularioEdicion" class="p-3">
+              <div class="mb-3">
+                <label for="titulo-tarea-edicion">Titulo: </label>
+                <input
+                  type="text"
+                  id="titulo-tarea-edicion"
+                  name="titulo-tarea-edicion"
+                  class="form-control"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="descripcion-tarea-edicion"> Tarea: </label>
+                <textarea
+                  id="descripcion-tarea-edicion"
+                  name="descripcion-tarea-edicion"
+                  class="form-control"
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="fecha-edicion">Fecha: </label>
+                <input
+                  type="date"
+                  id="fecha-edicion"
+                  name="fecha-edicion"
+                  class="form-control"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button id="cerrar" type="button" class="btn btn-primary">
+              Cerrar
+            </button>
+            <button id="guardarCambios" type="button" class="btn btn-primary">
+              Guardar Cambios
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+    <script src="appTareas.js"></script>
+  </body>
+</html>
